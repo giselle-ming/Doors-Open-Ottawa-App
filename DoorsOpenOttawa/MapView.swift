@@ -7,35 +7,15 @@
 
 import SwiftUI
 import MapKit
-import CoreLocation
-
-class LocationManager: NSObject, ObservableObject, CLLocationManagerDelegate {
-    @Published var location = CLLocation()
-
-    private let locationManager = CLLocationManager()
-
-    override init() {
-        super.init()
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        locationManager.startUpdatingLocation()
-    }
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        self.location = location
-    }
-}
 
 struct MapView: View {
-    @State private var buildings : [Building] = parseBuildingData()
+    @State private var buildings : [Building] = []
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(latitude: 45.4215, longitude: -75.6972),
         span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
     )
     @State private var selectedBuilding: Building?
     @State private var showingModal = false
-    @StateObject private var locationManager = LocationManager()
 
     var body: some View {
         ZStack {
@@ -59,7 +39,6 @@ struct MapView: View {
                     }
                 VStack {
                     Text(building.name)
-                    Text("Distance: \(locationManager.location.distance(from: CLLocation(latitude: building.latitude, longitude: building.longitude)) / 1000) km")
                     Button("Dismiss") {
                         showingModal = false
                     }
@@ -70,6 +49,10 @@ struct MapView: View {
                 .shadow(radius: 10)
                 .padding()
             }
+        }
+        .onAppear {
+            let (englishBuildings, _) = parseBuildingData()
+            buildings = englishBuildings
         }
     }
 }

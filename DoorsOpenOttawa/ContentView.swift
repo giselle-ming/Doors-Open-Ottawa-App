@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var buildings : [Building] = parseBuildingData()
-
+    @State private var englishBuildings: [Building] = []
+    @State private var frenchBuildings: [Building] = []
+    
     var body: some View {
         VStack {
             TabView {
-                HomeView(buildings: $buildings)
+                HomeView(buildings: $englishBuildings)
                     .tabItem {
                         Image(systemName: "house.fill")
                         Text("Home")
@@ -33,6 +34,11 @@ struct ContentView: View {
                         Image(systemName: "ellipsis")
                         Text("More")
                     }
+            }
+            .onAppear {
+                let (english, french) = parseBuildingData()
+                englishBuildings = english
+                frenchBuildings = french
             }
         }
     }

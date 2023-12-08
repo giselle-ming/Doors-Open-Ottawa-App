@@ -55,18 +55,27 @@ struct BuildingContainer: Decodable {
 
 }
 
-func parseBuildingData() -> [Building] {
-        guard let url = Bundle.main.url(forResource: "buildings.dataset/buildings", withExtension: "json", subdirectory: "Assets") else {
-            print("Missing file: buildings.json")
-            return []
-        }
-
-        do {
-            let jsonData = try Data(contentsOf: url)
-            let buildingDataWrappers = try JSONDecoder().decode([BuildingContainer].self, from: jsonData)
-            return buildingDataWrappers.flatMap { $0.buildings }
-        } catch {
-            print("Error parsing JSON: \(error)")
-            return []
-        }
+func parseBuildingData() -> ([Building], [Building]) {
+    guard let url = Bundle.main.url(forResource: "buildings.dataset/buildings", withExtension: "json", subdirectory: "Assets") else {
+        print("Missing file: buildings.json")
+        return ([], [])
     }
+
+    do {
+        let jsonData = try Data(contentsOf: url)
+        let buildingDataWrappers = try JSONDecoder().decode([BuildingContainer].self, from: jsonData)
+        
+        let englishBuildings = buildingDataWrappers
+            .filter { $0.language == "en" }
+            .flatMap { $0.buildings }
+        
+        let frenchBuildings = buildingDataWrappers
+            .filter { $0.language == "fr" }
+            .flatMap { $0.buildings }
+        
+        return (englishBuildings, frenchBuildings)
+    } catch {
+        print("Error parsing JSON: \(error)")
+        return ([], [])
+    }
+}
