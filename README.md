@@ -27,4 +27,4 @@ The app supports both English and French languages.
 - Add more features based on professor feedback.
 
 ## Home View
-![Home Screen](https://github.com/ming0025/ming0025-mad9137-final-project/blob/main/Simulator%20Home-%20iPhone%2015%20Pro.png)
+![Home Screen](https://github.com/giselle-ming/Doors-Open-Ottawa-App/blob/main/Simulator%20Home-%20iPhone%2015%20Pro.png)
