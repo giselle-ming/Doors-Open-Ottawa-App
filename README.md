@@ -1,6 +1,6 @@
 # Doors Open Ottawa App
 
-This is a SwiftUI application that provides information about various buildings in Ottawa. The app is part of the MAD9137 coursework, which allows students to practice all the knowledge gained during the term.
+This is a SwiftUI application that provides information about various buildings in Ottawa. 
 
 ## Features
 
